@@ -18,7 +18,7 @@ const fs = require('fs')
 const path = require('path')
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
-        // we use ths line path.join to specify the real path automaticly
+        // we use this line path.join to specify the real path automaticly
         const uploadDir = path.join(__dirname, '../../', 'uploads');
         if (!fs.existsSync(uploadDir)) {
             fs.mkdirSync(uploadDir);
@@ -52,8 +52,9 @@ const upload =  multer({storage : storage , limits: {
 router.post('/',checkAuth,upload.single('productImage'),ProductController.create_product)
 
 router.get('/',ProductController.get_products)
-
-
+ 
+//  Routing =====> path + Contoroller 
+ 
 // fetching by id 
 router.get('/:productId',ProductController.get_product_byID)
 
