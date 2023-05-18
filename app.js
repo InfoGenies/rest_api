@@ -2,8 +2,20 @@ const express = require('express')
 const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose')
-mongoose.connect('mongodb+srv://asmahami:'+process.env.MONGO_ATLAS_PW+'@node-shope.ucfokfe.mongodb.net/?retryWrites=true&w=majority')
+const mongoose = require('mongoose');
+const PORT = process.env.PORT || 3000
+
+const connectDB = async() => {
+    try{
+        const conn = await mongoose.connect('mongodb+srv://asmahami:'+process.env.MONGO_ATLAS_PW+'@node-shope.ucfokfe.mongodb.net/?retryWrites=true&w=majority')
+        console.log(`MongoDB Connected: ${conn.connection.host}`);
+        }catch(error){
+            console.log(error);
+            process.exit(1);
+          }
+
+}
+
 // getting the routing
 const productRouter = require('./api/routes/products')
 const orderRouter = require('./api/routes/order')
@@ -13,7 +25,7 @@ const userRouter = require('./api/routes/user')
 // we use morgan to logg(enregitstre) the info of the req like the ip client and status req
 app.use(morgan('dev'));
 
-// make the file that contain all imeges is accessible  (permission)
+// make the file that contain all images is accessible  (permission)
 app.use(express.static('public'));
 // 
 app.use('/uploads', express.static('uploads'));
@@ -42,7 +54,7 @@ next()
 // *use()* is Middleware, which are functions that can be executed before or after a request is
 // processed. Middleware can be used to handle common tasks such 
 // as authentication, logging, and error handling
-// Route which should handle request
+// Route which should handle request 
 app.use('/products', productRouter)
 app.use('/order', orderRouter)
 app.use('/signUp',userRouter)
@@ -63,4 +75,10 @@ app.use((error, req, res, next) => {
     })
 
 })
-module.exports = app;
+
+//Connect to the database before listening
+connectDB().then(() => {
+    app.listen(PORT, () => {
+        console.log("listening for requests");
+    })
+})
