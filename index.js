@@ -30,7 +30,7 @@ app.use(morgan('dev'));
 // make the file that contain all images is accessible  (permission)
 app.use(express.static('public'));
 // 
-app.use(fileUpload({
+app.use(fileupload({
     useTempFiles: true,
     tempFileDir: "/tmp",
     limits: {
