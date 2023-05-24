@@ -3,7 +3,6 @@ const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const fileupload = require('express-fileupload');
 
 const PORT = process.env.PORT || 3000
 
@@ -49,16 +48,10 @@ next()
 app.use(express.static('public'));
 // body-parser is a popular middleware for Node.js used to parse(analyser) incoming request bodies
 // in a middleware before your handlers.
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-app.use(fileupload({
-    useTempFiles: true,
-    tempFileDir: "/tmp",
-    limits: {
-      fileSize: 1024 * 1024 * 5 // 1 MB in bytes
-    }
-  }));
+
 // *use()* is Middleware, which are functions that can be executed before or after a request is
 // processed. Middleware can be used to handle common tasks such 
 // as authentication, logging, and error handling
