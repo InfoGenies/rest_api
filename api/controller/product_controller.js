@@ -4,25 +4,13 @@ const path = require('path')
 const Product = require('../models/productModel')
 
 exports.create_product = (req, res, next) => {
-    if (!req.files || !req.files.file) {
-        return res.status(400).send('No file was uploaded.');
-      }
-    
-      // Access the uploaded file
-  const uploadedFile = req.files.file;
-
-  uploadedFile.mv(path.join('/tmp', uploadedFile.name), (err) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).send('Error occurred while uploading the file.');
-    }
-    
+    console.log(req.file)
     // here the body-parser give us the appility to extract data that was send it by the user 
     const product = new Product({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         price: req.body.price,
-        productImage: uploadedFile.name
+        productImage: req.file.path
     })
     console.log(req.file.path)
     product.save().then(result => {
@@ -37,7 +25,7 @@ exports.create_product = (req, res, next) => {
             error: err 
         })
     })
-})
+   
 
 }
 exports.get_products = (req, res, next) => {
