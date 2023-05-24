@@ -3,6 +3,8 @@ const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const fileupload = require('express-fileupload');
+
 
 
 const PORT = process.env.PORT || 3000
@@ -49,6 +51,12 @@ if( req.method === 'OPTIONS'){
 }
 next()
 })
+
+
+app.use(fileupload({
+    useTempFiles: true,
+    tempFileDir: "/tmp",
+}))
 
 
 // *use()* is Middleware, which are functions that can be executed before or after a request is
