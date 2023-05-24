@@ -53,11 +53,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 app.use(fileupload({
-    useTempFiles: true,
-    tempFileDir: "/tmp",
-    limits: {
-      fileSize: 1024 * 1024 * 5 // 1 MB in bytes
-    }
+    tempFileDir: "/tmp"
   }));
 // *use()* is Middleware, which are functions that can be executed before or after a request is
 // processed. Middleware can be used to handle common tasks such 
