@@ -35,11 +35,7 @@ app.use(fileupload({
     tempFileDir: "/tmp",
     limits: {
       fileSize: 1024 * 1024 * 5 // 1 MB in bytes
-    },
-    safeFileNames: true,
-    preserveExtension: true,
-    abortOnLimit: true,
-    responseOnLimit: 'File size limit has been reached'
+    }
   }));
 // body-parser is a popular middleware for Node.js used to parse(analyser) incoming request bodies
 // in a middleware before your handlers.
