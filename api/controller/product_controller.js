@@ -4,11 +4,13 @@ const path = require('path')
 const Product = require('../models/productModel')
 
 exports.create_product = (req, res, next) => {
-    if (!req.files) {
-        return res.status(400).send('No files were uploaded.');
+    if (!req.files || !req.files.file) {
+        return res.status(400).send('No file was uploaded.');
       }
+    
       // Access the uploaded file
   const uploadedFile = req.files.file;
+
   uploadedFile.mv(path.join('/tmp', uploadedFile.name), (err) => {
     if (err) {
       console.error(err);
