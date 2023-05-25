@@ -10,7 +10,7 @@ exports.create_product = (req, res, next) => {
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         price: req.body.price,
-        productImage: req.files.path
+        productImage: req.files.productImage.name
     })
     
     product.save().then(result => {
