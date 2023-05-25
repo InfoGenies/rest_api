@@ -2,32 +2,24 @@ const mongoose = require('mongoose')
 const path = require('path')
 
 const Product = require('../models/productModel')
+{
+    // Access the uploaded file using req.files
+    if (!req.files || !req.files.image) {
+      return res.status(400).json({ error: 'No file uploaded' });
+    }
+  
+    // Process the uploaded file
+    const file = req.files.image;
+    // Save the file, validate it, or perform any required operations
+  
+    // Handle other product data
+    const { title, description, price } = req.body;
+    // Save the product details along with the file information
+  
+    res.status(200).json({ message: 'Product saved successfully' });
+  }
 
-exports.create_product = (req, res, next) => {
-    console.log(req.file)
-    // here the body-parser give us the appility to extract data that was send it by the user 
-    const product = new Product({
-        _id: new mongoose.Types.ObjectId(),
-        name: req.body.name,
-        price: req.body.price,
-        productImage: req.file.path
-    })
-    console.log(req.file.path)
-    product.save().then(result => {
-        console.log(result)
-        res.status(200).json({
-            message: 'Handling Request Post to /products ',
-            creatProduct: result
-        })
-    }).catch(err => {
-        console.log(err)
-        res.status(500).json({
-            error: err 
-        })
-    })
-   
 
-}
 exports.get_products = (req, res, next) => {
     
 Product.find()
