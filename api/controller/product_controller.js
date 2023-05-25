@@ -2,7 +2,8 @@ const mongoose = require('mongoose')
 const path = require('path')
 
 const Product = require('../models/productModel')
-{
+
+exports.create_product = (req, res, next) => {
     // Access the uploaded file using req.files
     if (!req.files || !req.files.image) {
       return res.status(400).json({ error: 'No file uploaded' });
