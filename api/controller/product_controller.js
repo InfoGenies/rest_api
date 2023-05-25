@@ -4,15 +4,28 @@ const path = require('path')
 const Product = require('../models/productModel')
 
 exports.create_product = (req, res, next) => {
-    console.log(req.file)
-    // here the body-parser give us the appility to extract data that was send it by the user 
+
+    if (!req.files) {
+        return res.status(400).json({ message: 'No files were uploaded.' });
+      }
+      const imageFile = req.files.productImage;
+      
+        // Generate a random filename or use the original filename
+  const fileName = `${Date.now()}-${imageFile.name}`;
+
+  imageFile.mv(`uploads/${fileName}`, (err) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'Failed to upload the file.' });
+    }
+
     const product = new Product({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         price: req.body.price,
-        productImage: req.file.path
+        productImage: `/uploads/${fileName}`
     })
-    console.log(req.file.path)
+
     product.save().then(result => {
         console.log(result)
         res.status(200).json({
@@ -25,8 +38,10 @@ exports.create_product = (req, res, next) => {
             error: err 
         })
     })
-   
 
+}
+)
+   
 }
 
 
