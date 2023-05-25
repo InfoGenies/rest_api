@@ -3,6 +3,7 @@ const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const fileupload = require('express-fileupload');
 
 const PORT = process.env.PORT || 3000
 
@@ -26,10 +27,6 @@ const userRouter = require('./api/routes/user')
 // we use morgan to logg(enregitstre) the info of the req like the ip client and status req
 app.use(morgan('dev'));
 
-
-
-
-
 //  This is a middleware function in an Express.js application that handles Cross-Origin Resource Sharing (CORS)
 //  for incoming HTTP requests.
 //  The code sets the required HTTP headers that allow resources on a web page to be requested
@@ -50,7 +47,10 @@ app.use(express.static('public'));
 // in a middleware before your handlers.
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
-
+app.use(fileupload({
+    useTempFiles: true,
+    tempFileDir: "/tmp",
+}))
 
 // *use()* is Middleware, which are functions that can be executed before or after a request is
 // processed. Middleware can be used to handle common tasks such 
