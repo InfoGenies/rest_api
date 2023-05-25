@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 const path = require('path')
-
+const fs = require('fs');
 const Product = require('../models/productModel')
 
 exports.create_product = (req, res, next) => {
@@ -13,7 +13,11 @@ exports.create_product = (req, res, next) => {
         // Generate a random filename or use the original filename
   const fileName = `${Date.now()}-${imageFile.name}`;
 
-  const uploadPath = path.join(__dirname, 'uploads', fileName);
+  const uploadPath = path.join(__dirname, '..', 'controller', 'uploads', fileName);
+
+  if (!fs.existsSync(directory)) {
+    fs.mkdirSync(directory, { recursive: true });
+  }
 
 
   imageFile.mv(uploadPath, (err) => {
