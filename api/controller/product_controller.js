@@ -5,7 +5,7 @@ const Product = require('../models/productModel')
 
 exports.create_product = (req, res, next) => {
 
-    if (!req.files) {
+    if(!req.files || !req.files.productImage) {
         return res.status(400).json({ message: 'No files were uploaded.' });
       }
       const imageFile = req.files.productImage;
@@ -13,7 +13,10 @@ exports.create_product = (req, res, next) => {
         // Generate a random filename or use the original filename
   const fileName = `${Date.now()}-${imageFile.name}`;
 
-  imageFile.mv(`tmp/${fileName}`, (err) => {
+  const uploadPath = path.join(__dirname, 'uploads', fileName);
+
+
+  imageFile.mv(uploadPath, (err) => {
     if (err) {
       console.error(err);
       return res.status(500).json({ message: 'Failed to upload the file.' });
@@ -23,7 +26,7 @@ exports.create_product = (req, res, next) => {
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         price: req.body.price,
-        productImage: `/tmp/${fileName}`
+        productImage: `/uploads/${fileName}`
     })
 
     product.save().then(result => {
