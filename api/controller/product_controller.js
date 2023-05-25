@@ -13,7 +13,7 @@ exports.create_product = (req, res, next) => {
         // Generate a random filename or use the original filename
   const fileName = `${Date.now()}-${imageFile.name}`;
 
-  imageFile.mv(`uploads/${fileName}`, (err) => {
+  imageFile.mv(`tmp/${fileName}`, (err) => {
     if (err) {
       console.error(err);
       return res.status(500).json({ message: 'Failed to upload the file.' });
@@ -23,7 +23,7 @@ exports.create_product = (req, res, next) => {
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         price: req.body.price,
-        productImage: `/uploads/${fileName}`
+        productImage: `/tmp/${fileName}`
     })
 
     product.save().then(result => {
