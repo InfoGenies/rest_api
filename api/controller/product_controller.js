@@ -13,11 +13,10 @@ exports.create_product = (req, res, next) => {
         // Generate a random filename or use the original filename
   const fileName = `${Date.now()}-${imageFile.name}`;
 
-  const uploadPath = path.join(__dirname, '.', 'controller', 'uploads', fileName);
-
-  if (!fs.existsSync(directory)) {
-    fs.mkdirSync(directory, { recursive: true });
-  }
+  const uploadDir = path.join(__dirname, '../../', 'uploads');
+        if (!fs.existsSync(uploadDir)) {
+            fs.mkdirSync(uploadDir);
+        }
 
 
   imageFile.mv(uploadPath, (err) => {
