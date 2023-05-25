@@ -10,9 +10,9 @@ exports.create_product = (req, res, next) => {
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         price: req.body.price,
-        productImage: req.files.productImage.name
+        productImage: req.file.path
     })
-    
+    console.log(req.file.path)
     product.save().then(result => {
         console.log(result)
         res.status(200).json({
