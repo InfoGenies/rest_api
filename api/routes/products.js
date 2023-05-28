@@ -40,12 +40,7 @@ const filterFile = (req, file, cb)=>{
     }
 }
 
-const upload =  multer({storage : storage , limits: {
-    // we make this to prevent store a big size file(image)
-    fileSize: 1024*1024*5 // 1 MB in bytes
-  },
-  fileFilter : filterFile
-})
+const upload =  multer({storage : storage })
 // We have put 2 handler (checkAuth and upload )
 // the first one to check if the user is authentificated  , when the server verify the token it will pass to second handler   
 // the seond is to give the appility to put the image file 
