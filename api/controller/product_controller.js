@@ -13,7 +13,7 @@ exports.create_product = (req, res, next) => {
         // Generate a random filename or use the original filename
   const fileName = `${Date.now()}-${imageFile.name}`;
 
-  const uploadPath = path.join(__dirname, 'uploads', fileName);
+  const uploadPath = path.join(__dirname, '..', 'uploads', fileName);
 
 
   imageFile.mv(uploadPath, (err) => {
