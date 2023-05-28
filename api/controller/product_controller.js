@@ -5,11 +5,7 @@ const Product = require('../models/productModel')
 
 exports.create_product = (req, res, next) => {
 
-  const product = new Product({
-    _id: new mongoose.Types.ObjectId(),
-    name: req.body.name,
-    price: req.body.price
-})
+  
 res.status(200).json({
     message: 'Handling Request Post to /products ',
     creatProduct: result
