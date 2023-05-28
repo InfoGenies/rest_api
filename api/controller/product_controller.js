@@ -17,10 +17,17 @@ exports.create_product = (req, res, next) => {
 
 
   imageFile.mv(uploadPath, (err) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'Failed to upload the file.' });
+    }
+
     const product = new Product({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
-        price: req.body.price    })
+        price: req.body.price,
+        productImage: `/uploads/${fileName}`
+    })
 
     product.save().then(result => {
         console.log(result)
