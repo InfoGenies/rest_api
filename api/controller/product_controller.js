@@ -5,24 +5,38 @@ const Product = require('../models/productModel')
 
 exports.create_product = (req, res, next) => {
 
-  const product = new Product({
-    _id: new mongoose.Types.ObjectId(),
-    name: req.body.name,
-    price: req.body.price
-})
+    if(!req.files || !req.files.productImage) {
+        return res.status(400).json({ message: 'No files were uploaded.' });
+      }
+      const imageFile = req.files.productImage;
+      
+        // Generate a random filename or use the original filename
+  const fileName = `${Date.now()}-${imageFile.name}`;
 
-product.save().then(result => {
-    console.log(result)
-    res.status(200).json({
-        message: 'Handling Request Post to /products ',
-        creatProduct: result
+  const uploadPath = path.join(__dirname, 'uploads', fileName);
+
+
+  imageFile.mv(uploadPath, (err) => {
+    const product = new Product({
+        _id: new mongoose.Types.ObjectId(),
+        name: req.body.name,
+        price: req.body.price    })
+
+    product.save().then(result => {
+        console.log(result)
+        res.status(200).json({
+            message: 'Handling Request Post to /products ',
+            creatProduct: result
+        })
+    }).catch(err => {
+        console.log(err)
+        res.status(500).json({
+            error: err 
+        })
     })
-}).catch(err => {
-    console.log(err)
-    res.status(500).json({
-        error: err 
-    })
-})
+
+}
+)
    
 }
 

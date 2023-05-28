@@ -33,18 +33,23 @@ const storage = multer.diskStorage({
 });
 const filterFile = (req, file, cb)=>{
     if(file.mimetype === "image/png"){
-        // we give the permesion to store file(image that is png)
+        // we give the permesion to store file(image that is jpg)
         cb(null,true)  
     }else{
         cb(null,false); 
     }
 }
 
-const upload =  multer({storage : storage })
+const upload =  multer({storage : storage , limits: {
+    // we make this to prevent store a big size file(image)
+    fileSize: 1024*1024*5 // 1 MB in bytes
+  },
+  fileFilter : filterFile
+})
 // We have put 2 handler (checkAuth and upload )
 // the first one to check if the user is authentificated  , when the server verify the token it will pass to second handler   
 // the seond is to give the appility to put the image file 
-router.post('/',checkAuth,upload.single('productImage'),ProductController.create_product)
+router.post('/',checkAuth,ProductController.create_product)
 
 router.get('/',ProductController.get_products)
  
