@@ -1,5 +1,7 @@
 const mongoose = require('mongoose')
 const path = require('path')
+const fs = require('fs');
+
 
 const Product = require('../models/productModel')
 
@@ -12,6 +14,22 @@ exports.create_product = (req, res, next) => {
       
         // Generate a random filename or use the original filename
   const fileName = `${Date.now()}-${imageFile.name}`;
+  
+  const filePath = '/var/task/api/controller/uploads/1685263505099-HESHE.png';
+
+  // Check if the file or directory exists
+  fs.access(filePath, fs.constants.F_OK, (err) => {
+    if (err) {
+      // File or directory does not exist, create it
+      fs.mkdirSync('/var/task/api/controller/uploads', { recursive: true });
+      fs.closeSync(fs.openSync(filePath, 'w'));
+      console.log(`File '${filePath}' created successfully.`);
+    } else {
+      // File or directory already exists
+      console.log(`File '${filePath}' already exists.`);
+    }
+  });
+
 
   const uploadPath = path.join(__dirname, 'uploads', fileName);
 
