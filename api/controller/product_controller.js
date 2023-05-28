@@ -15,12 +15,12 @@ exports.create_product = (req, res, next) => {
     // Generate a random filename or use the original filename
     const fileName = `${Date.now()}-${imageFile.name}`;
     
-    const directoryPath = path.join(__dirname, 'uploads');
+    const directoryPath = '/var/task/api/controller/uploads'
     const filePath = path.join(directoryPath, fileName);
   
     // Check if the directory exists, create it if not
     if (!fs.existsSync(directoryPath)) {
-      fs.mkdirSync(directoryPath, { recursive: true });
+        fs.mkdirSync(directoryPath, { recursive: true });
     }
   
     imageFile.mv(filePath, (err) => {
