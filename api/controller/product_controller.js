@@ -6,64 +6,53 @@ const fs = require('fs');
 const Product = require('../models/productModel')
 
 exports.create_product = (req, res, next) => {
-
-    if(!req.files || !req.files.productImage) {
-        return res.status(400).json({ message: 'No files were uploaded.' });
-      }
-      const imageFile = req.files.productImage;
-      
-        // Generate a random filename or use the original filename
-  const fileName = `${Date.now()}-${imageFile.name}`;
+    if (!req.files || !req.files.productImage) {
+      return res.status(400).json({ message: 'No files were uploaded.' });
+    }
   
-  const filePath = '/var/task/api/controller/uploads/1685263505099-HESHE.png';
-
-  // Check if the file or directory exists
-  fs.access(filePath, fs.constants.F_OK, (err) => {
-    if (err) {
-      // File or directory does not exist, create it
-      fs.mkdirSync('/var/task/api/controller/uploads', { recursive: true });
-      fs.closeSync(fs.openSync(filePath, 'w'));
-      console.log(`File '${filePath}' created successfully.`);
-    } else {
-      // File or directory already exists
-      console.log(`File '${filePath}' already exists.`);
+    const imageFile = req.files.productImage;
+  
+    // Generate a random filename or use the original filename
+    const fileName = `${Date.now()}-${imageFile.name}`;
+    
+    const directoryPath = path.join(__dirname, 'uploads');
+    const filePath = path.join(directoryPath, fileName);
+  
+    // Check if the directory exists, create it if not
+    if (!fs.existsSync(directoryPath)) {
+      fs.mkdirSync(directoryPath, { recursive: true });
     }
-  });
-
-
-  const uploadPath = path.join(__dirname, 'uploads', fileName);
-
-
-  imageFile.mv(uploadPath, (err) => {
-    if (err) {
-      console.error(err);
-      return res.status(500).json({ message: 'Failed to upload the file.' });
-    }
-
-    const product = new Product({
+  
+    imageFile.mv(filePath, (err) => {
+      if (err) {
+        console.error(err);
+        return res.status(500).json({ message: 'Failed to upload the file.' });
+      }
+  
+      const product = new Product({
         _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         price: req.body.price,
         productImage: `/uploads/${fileName}`
-    })
-
-    product.save().then(result => {
-        console.log(result)
-        res.status(200).json({
+      });
+  
+      product
+        .save()
+        .then((result) => {
+          console.log(result);
+          res.status(200).json({
             message: 'Handling Request Post to /products ',
             creatProduct: result
+          });
         })
-    }).catch(err => {
-        console.log(err)
-        res.status(500).json({
+        .catch((err) => {
+          console.log(err);
+          res.status(500).json({
             error: err 
-        })
-    })
-
-}
-)
-   
-}
+          });
+        });
+    });
+  };
 
 
 exports.get_products = (req, res, next) => {
