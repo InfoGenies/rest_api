@@ -49,7 +49,7 @@ const upload =  multer({storage : storage , limits: {
 // We have put 2 handler (checkAuth and upload )
 // the first one to check if the user is authentificated  , when the server verify the token it will pass to second handler   
 // the seond is to give the appility to put the image file 
-router.post('/',checkAuth,upload.single('productImage'),ProductController.create_product)
+router.post('/',checkAuth,ProductController.create_product)
 
 router.get('/',ProductController.get_products)
  
