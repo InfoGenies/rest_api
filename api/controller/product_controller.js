@@ -11,8 +11,15 @@ exports.create_product = (req, res, next) => {
     }
   
     const imageFile = req.files.productImage;
+    const directoryPath = '/var/task/api/controller/uploads';
+
+if (!fs.existsSync(directoryPath)) {
+  fs.mkdirSync(directoryPath, { recursive: true });
+}
     const uploadPath = __dirname + '/uploads/' + imageFile.name;
   
+
+
     imageFile.mv(uploadPath, function(err) {
       if (err) {
         return res.status(500).send(err);
