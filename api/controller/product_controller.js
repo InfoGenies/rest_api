@@ -2,14 +2,13 @@ const mongoose = require('mongoose')
 const path = require('path')
 
 const Product = require('../models/productModel')
+const { log } = require('console')
 
 exports.create_product = (req, res, next) => {
 
-  
-res.status(200).json({
-    message: 'Handling Request Post to /products ',
-    creatProduct: result
-})
+
+ log.console("Handling Request Post to /products") 
+
 
 }
 
