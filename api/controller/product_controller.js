@@ -75,7 +75,7 @@ exports.get_product_byID =  (req, res, next) => {
     .then(doc=>{
         console.log(doc)
         // check if the product is not null 
-        if(!doc)
+        if(doc)
         {res.status(200).json(doc)
         }else{
 
