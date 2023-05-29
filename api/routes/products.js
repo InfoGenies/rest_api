@@ -19,11 +19,16 @@ const path = require('path')
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         // we use this line path.join to specify the real path automaticly
-        const uploadDir = path.join(__dirname, '../../', 'uploads');
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir);
-        }
-        cb(null, uploadDir);
+      
+        let tempraryImageDirectory;
+
+if (process.env.DEV && process.env.DEV === 'Yes') {
+    tempraryImageDirectory = path.join(__dirname, `../../tmp/`);
+  } else {
+    tempraryImageDirectory = '/tmp/';
+  }
+  
+        cb(null, tempraryImageDirectory);
     },
     filename: function(req, file, cb) {
         const date = new Date().toISOString().replace(/:/g, '-');

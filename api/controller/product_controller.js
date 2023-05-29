@@ -1,40 +1,52 @@
 const mongoose = require('mongoose')
 const path = require('path')
-var fs = require("fs");
 
 const Product = require('../models/productModel')
 
-
-
 exports.create_product = (req, res, next) => {
 
+    if(!req.files || !req.files.productImage) {
+        return res.status(400).json({ message: 'No files were uploaded.' });
+      }
+      const imageFile = req.files.productImage;
+      
+        // Generate a random filename or use the original filename
+  const fileName = `${Date.now()}-${imageFile.name}`;
+
+  const uploadPath = path.join(__dirname, '..', 'uploads', fileName);
+
+
+  imageFile.mv(uploadPath, (err) => {
+    if (err) {
+      console.error(err);
+      return res.status(500).json({ message: 'Failed to upload the file.' });
+    }
+
     const product = new Product({
-        id: new mongoose.Types.ObjectId(),
+        _id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         price: req.body.price,
-        productImage: "https://firebasestorage.googleapis.com/v0/b/fooddelivery-ab491.appspot.com/o/Screen%2Faccept_order.jpg?alt=media&token=5588e14a-d8e8-42a0-98f9-af7877cca4e3"
-      });
-      product
-        .save()
-        .then(result => {
-          console.log(result);
-          res.status(201).json({
-            message: "Created product successfully",
-            createdProduct: {
-                name: result.name,
-                price: result.price,
-                id: result.id,
-                request: {
-                    type: 'GET',
-                    url: "http://localhost:3000/products/" + result.id
-                }
-            }
-          });
+        productImage: `/uploads/${fileName}`
+    })
+
+    product.save().then(result => {
+        console.log(result)
+        res.status(200).json({
+            message: 'Handling Request Post to /products ',
+            creatProduct: result
+        })
+    }).catch(err => {
+        console.log(err)
+        res.status(500).json({
+            error: err 
+        })
+    })
 
 }
 )
    
 }
+
 
 exports.get_products = (req, res, next) => {
     
@@ -49,7 +61,7 @@ Product.find()
             return {
                 name: doc.name,
                 price: doc.price,
-                productImage: doc.productImage,
+                productImage: `http://127.0.0.1:3000/uploads/${path.basename(doc.productImage)}`,
                 _id: doc._id,
                 request: {
                     Type:'GET',
