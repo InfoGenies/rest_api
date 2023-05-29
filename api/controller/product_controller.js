@@ -1,7 +1,10 @@
 const mongoose = require('mongoose')
 const path = require('path')
+var fs = require("fs");
 
 const Product = require('../models/productModel')
+
+
 
 exports.create_product = (req, res, next) => {
 
@@ -9,7 +12,7 @@ exports.create_product = (req, res, next) => {
         id: new mongoose.Types.ObjectId(),
         name: req.body.name,
         price: req.body.price,
-        productImage: req.file.path
+        productImage: "https://firebasestorage.googleapis.com/v0/b/fooddelivery-ab491.appspot.com/o/Screen%2Faccept_order.jpg?alt=media&token=5588e14a-d8e8-42a0-98f9-af7877cca4e3"
       });
       product
         .save()
