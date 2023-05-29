@@ -37,7 +37,7 @@ exports.create_product = (req, res, next) => {
 exports.get_products = (req, res, next) => {
     
 Product.find()
-.select('name price _id productImage')
+.select('name price id productImage')
 .exec()
 .then(doc => {
     console.log(doc)
@@ -70,7 +70,7 @@ Product.find()
 exports.get_product_byID =  (req, res, next) => {
     const id = req.params.productId
     Product.findById(id)
-    .select('name price _id productImage')
+    .select('name price id productImage')
     .exec()
     .then(doc=>{
         console.log(doc)
