@@ -33,7 +33,6 @@ exports.create_product = (req, res, next) => {
    
 }
 
-
 exports.get_products = (req, res, next) => {
     
 Product.find()
@@ -147,3 +146,37 @@ exports.deleteAll =(req, res, next) => {
         });
       });
   }
+
+
+  /*
+  exports.create_product = (req, res, next) => {
+
+    const product = new Product({
+        id: new mongoose.Types.ObjectId(),
+        name: req.body.name,
+        price: req.body.price,
+        productImage: req.file.path
+      });
+      product
+        .save()
+        .then(result => {
+          console.log(result);
+          res.status(201).json({
+            message: "Created product successfully",
+            createdProduct: {
+                name: result.name,
+                price: result.price,
+                id: result.id,
+                request: {
+                    type: 'GET',
+                    url: "http://localhost:3000/products/" + result.id
+                }
+            }
+          });
+
+}
+)
+   
+}
+
+   */
