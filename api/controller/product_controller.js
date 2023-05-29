@@ -49,7 +49,7 @@ Product.find()
             return {
                 name: doc.name,
                 price: doc.price,
-                productImage: doc.productImage.path,
+                productImage: doc.productImage,
                 _id: doc._id,
                 request: {
                     Type:'GET',
