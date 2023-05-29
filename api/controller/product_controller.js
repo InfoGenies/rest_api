@@ -5,6 +5,10 @@ const Product = require('../models/productModel')
 
 exports.create_product = (req, res, next) => {
 
+
+    const baseUrl = "https://enthusiastic-puce-garters.cyclic.app"; 
+
+
     const product = new Product({
         id: new mongoose.Types.ObjectId(),
         name: req.body.name,
@@ -23,7 +27,7 @@ exports.create_product = (req, res, next) => {
                 id: result.id,
                 request: {
                     type: 'GET',
-                    url: "http://localhost:3000/products/" + result.id
+                    url: `${baseUrl}/products/${result.id}`
                 }
             }
           });
