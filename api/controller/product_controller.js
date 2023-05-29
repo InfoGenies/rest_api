@@ -49,7 +49,7 @@ Product.find()
             return {
                 name: doc.name,
                 price: doc.price,
-                productImage: `http://127.0.0.1:3000/uploads/${path.basename(doc.productImage)}`,
+                productImage: doc.productImage.path,
                 _id: doc._id,
                 request: {
                     Type:'GET',
