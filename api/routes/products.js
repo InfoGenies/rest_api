@@ -20,9 +20,7 @@ const storage = multer.diskStorage({
     destination: function(req, file, cb) {
         // we use this line path.join to specify the real path automaticly
         const uploadDir = path.join(__dirname, `../../tmp/`);
-        if (!fs.existsSync(uploadDir)) {
-            fs.mkdirSync(uploadDir);
-        }
+       
         cb(null, uploadDir);
     },
     filename: function(req, file, cb) {
