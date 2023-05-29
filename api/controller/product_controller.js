@@ -2,12 +2,8 @@ const mongoose = require('mongoose')
 const path = require('path')
 
 const Product = require('../models/productModel')
-
+const baseUrl = "https://enthusiastic-puce-garters.cyclic.app"; 
 exports.create_product = (req, res, next) => {
-
-
-    const baseUrl = "https://enthusiastic-puce-garters.cyclic.app"; 
-
 
     const product = new Product({
         id: new mongoose.Types.ObjectId(),
@@ -51,11 +47,11 @@ Product.find()
             return {
                 name: doc.name,
                 price: doc.price,
-                productImage: `http://127.0.0.1:3000/uploads/${path.basename(doc.productImage)}`,
+                productImage: `${baseUrl}/tmp/${path.basename(doc.productImage)}`,
                 _id: doc._id,
                 request: {
                     Type:'GET',
-                    url: 'http://127.0.0.1:3000/products/'+doc._id
+                    url: `${baseUrl}/products/${result.id}`
                 }
             }
         })
