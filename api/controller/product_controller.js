@@ -47,7 +47,7 @@ Product.find()
             return {
                 name: doc.name,
                 price: doc.price,
-                productImage: `${baseUrl}/tmp/${path.basename(doc.productImage)}`,
+                productImage: `${baseUrl}/products/tmp/${path.basename(doc.productImage)}`,
                 id:doc._id,
                 request: {
                     Type:'GET',
