@@ -3,7 +3,6 @@ const app = express()
 const morgan = require('morgan')
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
-const fileupload = require('express-fileupload');
 
 
 const PORT = process.env.PORT || 3000
@@ -41,11 +40,6 @@ if( req.method === 'OPTIONS'){
 }
 next()
 })
-
-app.use(fileupload({
-    useTempFiles: true,
-    tempFileDir: "/tmp",
-}))
 
 // make the file that contain all images is accessible  (permission)
 app.use('/tmp', express.static('tmp'))
