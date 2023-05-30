@@ -20,10 +20,10 @@ exports.create_product = (req, res, next) => {
             createdProduct: {
                 name: result.name,
                 price: result.price,
-                id: result.id,
+                id: result._id,
                 request: {
                     type: 'GET',
-                    url: `${baseUrl}/products/${result.id}`
+                    url: `${baseUrl}/products/${result._id}`
                 }
             }
           });
@@ -37,7 +37,7 @@ exports.create_product = (req, res, next) => {
 exports.get_products = (req, res, next) => {
     
 Product.find()
-.select('name price id productImage')
+.select('name price _id productImage')
 .exec()
 .then(doc => {
     console.log(doc)
@@ -48,7 +48,7 @@ Product.find()
                 name: doc.name,
                 price: doc.price,
                 productImage: `${baseUrl}/tmp/${path.basename(doc.productImage)}`,
-                id:doc.id,
+                id:doc._id,
                 request: {
                     Type:'GET',
                     url: `${baseUrl}/products/${doc.id}`
@@ -70,7 +70,7 @@ Product.find()
 exports.get_product_byID =  (req, res, next) => {
     const id = req.params.productId
     Product.findById(id)
-    .select('name price id productImage')
+    .select('name price _id productImage')
     .exec()
     .then(doc=>{
         console.log(doc)
