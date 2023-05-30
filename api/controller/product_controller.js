@@ -51,7 +51,7 @@ Product.find()
                 id:doc._id,
                 request: {
                     Type:'GET',
-                    url: `${baseUrl}/products/${doc.id}`
+                    url: `${baseUrl}/products/${doc._id}`
                 }
             }
         })
