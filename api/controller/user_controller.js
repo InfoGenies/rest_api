@@ -2,46 +2,40 @@ const mongoose = require('mongoose')
 const User = require('../models/userModel')
 const bcypt = require('bcrypt')
 const jwt = require('jsonwebtoken');
-const emailValidator = require('email-validator');
+
 
 exports.signUp =  (req, res) => {
-  const email = req.body.email;
-   User.find({email}).then(users=>{
+
+   User.find({email:req.body.email}).then(users=>{
     if(users.length>=1){
      return res.status(409).json({
         message: 'Mail exist'
       })
     }else{
-      if (emailValidator.validate(email)) {
-        bcypt.hash(req.body.password,10,(err,hash)=>{
-          if(err){
-              res.status(500).json({
-                  error : err
-              })
-          }else{
-              const user = new User({
-                  _id: new mongoose.Types.ObjectId(),
-                  email: req.body.email,
-                password: hash
-              })
-              user.save()
-      .then(result =>{
-        console.log(result)
-          res.status(201).json({ message: 'User created successfully' });
-      })
-      .catch(err =>{
-          res.status(500).json({ error: err});
-      }
-      )
-              
-          }
-          
-                })  
-      }else{
-        res.status(404).json({ message: 'Email not Exist' });
-      }
-
-     
+      bcypt.hash(req.body.password,10,(err,hash)=>{
+        if(err){
+            res.status(500).json({
+                error : err
+            })
+        }else{
+            const user = new User({
+                _id: new mongoose.Types.ObjectId(),
+                email: req.body.email,
+              password: hash
+            })
+            user.save()
+    .then(result =>{
+      console.log(result)
+        res.status(201).json({ message: 'User created successfully' });
+    })
+    .catch(err =>{
+        res.status(500).json({ error: err});
+    }
+    )
+            
+        }
+        
+              })  
     }
 
    })
